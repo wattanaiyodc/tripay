@@ -45,7 +45,7 @@ if (strlen($password) < 4) {
 }
 
 // ===== check username ซ้ำ =====
-$stmt = $pdo->prepare("SELECT 1 FROM users WHERE username = ? LIMIT 1");
+$stmt = $pdo2->prepare("SELECT 1 FROM users WHERE username = ? LIMIT 1");
 $stmt->execute([$username]);
 
 if ($stmt->fetch()) {
@@ -59,7 +59,7 @@ if ($stmt->fetch()) {
 $hash = md5($password);
 
 // ===== insert =====
-$stmt = $pdo->prepare("
+$stmt = $pdo2->prepare("
     INSERT INTO users (username, password)
     VALUES (?, ?)
 ");

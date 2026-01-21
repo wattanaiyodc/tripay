@@ -22,10 +22,10 @@ $amount = (int)($data['amount'] ?? 0);
 $date   = $data['date'] ?? '';
 
 try {
-    $pdo->beginTransaction();
+    $pdo2->beginTransaction();
     $sql = "insert into transactions ( user_id, type, title, amount, transaction_date ) values ( :user_id, :type, :title, :amount, :transaction_date )
             ";
-    $sth = $pdo->prepare($sql);
+    $sth = $pdo2->prepare($sql);
     $sth->execute([
         ':user_id' => $user_id,
         ':type' => $type,
@@ -37,7 +37,7 @@ try {
       $answer["message"] = (empty($sth->errorInfo()[2]))?$sth->errorInfo()[0]:$sth->errorInfo()[2];
       exit(json_encode($answer));
     }
-    $pdo->commit();
+    $pdo2->commit();
 
     echo json_encode([
         'status'  => 'ok',
@@ -45,7 +45,7 @@ try {
     ]);
 } catch (Throwable $e) {
 
-    $pdo->rollBack();
+    $pdo2->rollBack();
     echo $e->getMessage();
 }
 ?>

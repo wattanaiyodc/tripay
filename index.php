@@ -29,7 +29,7 @@
                 },
                 success: function(res) {
                     if (res.status === 'ok') {
-                        location.href = 'dashboard/index.php';
+                        location.href = 'trip/index.php';
                     } else {
                         $('#msg').text(res.message);
                     }

@@ -7,7 +7,7 @@ $username = trim($_POST['username'] ?? '');
 $password = trim($_POST['password'] ?? '');
 
 
-$stmt = $pdo->prepare("
+$stmt = $pdo2->prepare("
     SELECT *
     FROM users
     WHERE username = ?
