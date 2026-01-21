@@ -46,7 +46,7 @@ if ($user_id === 0) {
     exit(json_encode(['status' => 'error', 'message' => 'no user']));
 }
 
-$sth = $pdo->prepare("
+$sth = $pdo2->prepare("
     SELECT role
     FROM users
     WHERE user_id = :user_id
@@ -55,7 +55,7 @@ $sth = $pdo->prepare("
 $sth->execute([':user_id' => $user_id]);
 
 $role = $sth->fetchColumn();
-if ($role !== 'master') {
+if ($role !== 'member' && $role !== 'master') {
     exit(json_encode([
         'status'  => 'error',
         'message' => 'no permission'
@@ -72,12 +72,13 @@ if (!isset($_POST['json'])) {
 
 $data = json_decode($_POST['json'], true);
 
-$trip_name = $data['trip_name'] ?? '';
-$date_from = $data['date_from'] ?? null;
-$date_to   = $data['date_to'] ?? null;
+$trip_name = $data['trip_name'] ;
+$date_from = $data['date_from'] ;
+$date_to   = $data['date_to'] ;
+$trip_location = $data['trip_location'];
 try {
 
-    $pdo->beginTransaction();
+    $pdo2->beginTransaction();
 
     // ===== upload image =====
     $trip_image = null;
@@ -92,32 +93,47 @@ try {
     // ===== insert =====
     $sql = "INSERT INTO trips (
                 trip_name,
-                owner_id,
+                master_id,
                 date_from,
                 date_to,
-                trip_image
+                trip_image,
+                `location`
             ) VALUES (
                 :trip_name,
                 :user_id,
                 :date_from,
                 :date_to,
-                :trip_image
+                :trip_image,
+                :trip_location
             )";
 
-    $sth = $pdo->prepare($sql);
+    $sth = $pdo2->prepare($sql);
     $sth->execute([
         ':trip_name'  => $trip_name,
         ':user_id'    => $user_id,
         ':date_from'  => $date_from,
         ':date_to'    => $date_to,
-        ':trip_image' => $trip_image
+        ':trip_image' => $trip_image,
+        ':trip_location' => $trip_location
     ]);
 
     if ($sth->errorInfo()[0] !== "00000") {
         throw new Exception($sth->errorInfo()[2] ?? 'DB error');
     }
+    $trip_id = $pdo2->lastInsertId();
+    $sql = "insert into members (trip_id, user_id, role) values (:trip_id, :user_id, :role)";
+    $sth = $pdo2->prepare($sql);
+    $sth->execute([
+        ':trip_id' => $trip_id,
+        ':user_id' => $user_id,
+        ':role' => 'master'
+    ]);
+    if ($sth->errorInfo()[0] != "00000" && !empty($sth->errorInfo()[0])) {
+      $answer["message"] = (empty($sth->errorInfo()[2])) ? $sth->errorInfo()[0] : $sth->errorInfo()[2];
+      exit(json_encode($answer));
+    }
 
-    $pdo->commit();
+    $pdo2->commit();
 
     echo json_encode([
         'status' => 'success'
@@ -125,8 +141,8 @@ try {
     exit;
 } catch (Throwable $e) {
 
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack();
+    if ($pdo2->inTransaction()) {
+        $pdo2->rollBack();
     }
 
     echo json_encode([

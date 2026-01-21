@@ -19,7 +19,7 @@ try {
         ORDER BY transaction_date DESC, transaction_id DESC
     ";
 
-    $sth = $pdo->prepare($sql);
+    $sth = $pdo2->prepare($sql);
     $sth->execute([
         ':user_id' => $user_id
     ]);

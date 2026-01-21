@@ -13,91 +13,130 @@ include '../components/component_sidebar.php';
 ?>
 <style>
     /* ===== layout card ===== */
-    .cp-box {
-        background: #ffffff;
+    /* ===== SIDEBAR ===== */
+    .cp-sidebar {
+        width: 220px;
+        min-height: 100vh;
+        background: #1f2937;
+        color: #fff;
         padding: 20px;
-        margin-bottom: 24px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        box-sizing: border-box;
+        flex-shrink: 0;
     }
 
-    /* ===== table ===== */
-    .cp-table {
-        width: 100%;
-        border-collapse: collapse;
-        table-layout: fixed;
-    }
-
-    .cp-table thead th {
-        text-align: left;
-        font-size: 17px;
+    .cp-sidebar h1 {
+        margin: 0 0 20px;
+        font-size: 18px;
         font-weight: 600;
-        color: #374151;
-        padding: 10px 8px;
-        border-bottom: 2px solid #e5e7eb;
+    }
+
+    .cp-sidebar a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        padding: 10px 12px;
+        margin-bottom: 6px;
+
+        color: #cbd5e1;
+        text-decoration: none;
+        border-radius: 6px;
+
+        font-size: 14px;
+    }
+
+    .cp-sidebar a:hover,
+    .cp-sidebar a.cp-active {
+        background: #374151;
+        color: #fff;
+    }
+
+    .cp-icon {
+        width: 18px;
         text-align: center;
     }
 
-    .cp-table tbody td {
-        padding: 10px 8px;
-        border-bottom: 1px solid #f1f5f9;
-        font-size: 14px;
-        
+    .cp-sidebar-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, .12);
+        margin: 14px 0;
     }
 
-    .cp-table tbody tr:hover {
-        background: #f9fafb;
+    .cp-sidebar a.cp-logout {
+        color: #fecaca;
     }
 
-    /* ===== form ===== */
-    .cp-table input,
-    .cp-table select {
-        width: 100%;
-        padding: 8px 10px;
-        border-radius: 8px;
-        border: 1px solid #d1d5db;
-        font-size: 14px;
+    .cp-sidebar a.cp-logout:hover {
+        background: rgba(239, 68, 68, .15);
+        color: #fff;
     }
 
-    .cp-table input:focus,
-    .cp-table select:focus {
-        outline: none;
-        border-color: #6366f1;
+    /* ===== TOPBAR ===== */
+    .cp-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
     }
 
-    /* ===== button ===== */
-    .cp-table button {
-        padding: 10px 16px;
-        border-radius: 8px;
+    .cp-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #111827;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 60%;
+    }
+
+    .cp-topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    /* ===== LANG TOGGLE ===== */
+    .cp-lang-form {
+        display: inline-flex;
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 999px;
+        padding: 4px;
+        gap: 4px;
+    }
+
+    .cp-lang-btn {
         border: none;
+        background: transparent;
+        padding: 6px 10px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 700;
+        color: #6b7280;
+        transition: all .15s ease;
+    }
+
+    .cp-lang-btn:hover {
+        background: #e5e7eb;
+        color: #111827;
+    }
+
+    .cp-lang-btn.active {
         background: #6366f1;
         color: #fff;
-        font-size: 14px;
-        cursor: pointer;
     }
 
-    .cp-table button:hover {
-        background: #4f46e5;
+    /* ===== USER ===== */
+    .cp-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
-    /* ===== summary ===== */
-    .cp-summary td {
-        text-align: center;
-        font-size: 18px;
-        font-weight: bold;
-        padding: 18px 0;
-    }
-
-
-    /* ===== color ===== */
-    .tx-income {
-        color: #16a34a;
-        font-weight: bold;
-    }
-
-    .tx-expense {
-        color: #dc2626;
-        font-weight: bold;
+    .cp-user>div:last-child {
+        line-height: 1.2;
+        white-space: nowrap;
     }
 </style>
 

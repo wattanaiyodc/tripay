@@ -4,7 +4,7 @@ $db   = 'tripay';
 $user = 'root';
 $pass = '1234';
 
-$pdo = new PDO(
+$pdo2 = new PDO(
     "mysql:host=$host;dbname=$db;charset=utf8mb4",
     $user,
     $pass,
