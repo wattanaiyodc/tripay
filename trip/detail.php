@@ -8,8 +8,8 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$trip_id = (int)($_GET['trip_id'] ?? 0);
-if ($trip_id === 0) {
+$trip_id = (int)($_GET['trip_id'] ?? $_SESSION['trip_id'] ?? 0);
+if ($trip_id <= 0) {
     exit('invalid trip');
 }
 $_SESSION['trip_id'] = $trip_id;

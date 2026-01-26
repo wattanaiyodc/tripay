@@ -138,6 +138,111 @@ include '../components/component_sidebar.php';
         line-height: 1.2;
         white-space: nowrap;
     }
+
+    .tx-income {
+        color: #16a34a;
+        font-weight: 700;
+    }
+
+    .tx-expense {
+        color: #dc2626;
+        font-weight: 700;
+    }
+
+    /* ===== PAGE BASE ===== */
+    body {
+        background: #f9fafb;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
+    }
+
+    /* ===== BOX ===== */
+    .cp-box {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 16px;
+        margin: 14px 0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+    }
+
+    /* ===== TABLE ===== */
+    .cp-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    .cp-table thead th {
+        background: #f3f4f6;
+        color: #111827;
+        font-weight: 700;
+        padding: 12px 10px;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: left;
+    }
+
+    .cp-table tbody td {
+        padding: 12px 10px;
+        border-bottom: 1px solid #f1f5f9;
+        color: #111827;
+        vertical-align: middle;
+    }
+
+    .cp-table tbody tr:hover td {
+        background: #f9fafb;
+    }
+
+    /* ===== FORM CONTROL ===== */
+    .cp-table select,
+    .cp-table input[type="text"],
+    .cp-table input[type="number"],
+    .cp-table input[type="date"] {
+        width: 100%;
+        padding: 10px 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        outline: none;
+        font-size: 14px;
+        background: #fff;
+        box-sizing: border-box;
+    }
+
+    .cp-table select:focus,
+    .cp-table input:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, .15);
+    }
+
+    /* ===== BUTTON ===== */
+    #btnAdd {
+        width: 100%;
+        padding: 10px 12px;
+        border: none;
+        border-radius: 8px;
+        background: #6366f1;
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all .15s ease;
+    }
+
+    #btnAdd:hover {
+        filter: brightness(0.95);
+    }
+
+    #btnAdd:active {
+        transform: translateY(1px);
+    }
+
+    /* ===== SUMMARY ===== */
+    .cp-summary td {
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .cp-summary td:last-child {
+        color: #111827;
+    }
 </style>
 
 <div class="cp-box">
