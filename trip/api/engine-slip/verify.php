@@ -8,7 +8,24 @@ if (!$qr) {
     ]));
 }
 
-$k = 'LVf2nurv0c0O14rK8ayw8vHLLA1cv+uOgzI3SBoEaYs=';
+$rootPath = dirname(__DIR__, 3);
+// engine-slip -> api -> trip -> ROOT
+
+$envPath = $rootPath . '/.env';
+
+if (file_exists($envPath)) {
+    $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        [$key, $value] = explode('=', $line, 2);
+        $_ENV[$key] = trim($value);
+    }
+}
+$k = $_ENV['SLIP2GO_KEY'] ?? '';
+echo "<pre>";
+print_r($k);
+echo "</pre>";
+exit();
 $ch = curl_init('https://connect.slip2go.com/api/verify-slip/qr-code/info');
 
 curl_setopt_array($ch, [

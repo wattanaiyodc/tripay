@@ -3,3 +3,4 @@ trip;Trip;::ทริป
 edit_member;Edit Member;::แก้ไขสมาชิก
 detail;Details;::รายละเอียด
 transaction;Transaction;::รายการรับ–จ่าย
+import_transaction;Import Transaction;::นำเข้าธุรกรรม

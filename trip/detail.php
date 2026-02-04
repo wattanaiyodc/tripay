@@ -62,7 +62,7 @@ include 'components/component_sidebar.php';
 
 <div class="cp-box">
     <button id="import_slip" class="cp-btn-import">
-        📷 นำเข้าข้อมูลจากสลิป
+        📷 <?php echo $resource["import_transaction"] ?>
     </button>
 
     <!-- input แนบรูป (ซ่อนไว้) -->
