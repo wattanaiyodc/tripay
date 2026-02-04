@@ -29,13 +29,11 @@ try {
         SELECT *
         FROM trips
         WHERE trip_id = :trip_id
-        AND master_id = :user_id
         LIMIT 1
     ";
     $sth = $pdo2->prepare($sql);
     $sth->execute([
-        ':trip_id' => $trip_id,
-        ':user_id' => $user_id
+        ':trip_id' => $trip_id
     ]);
 
     if ($sth->errorInfo()[0] !== "00000") {

@@ -139,13 +139,18 @@ $cp_active = $cp_active ?? '';
 <nav class="cp-sidebar">
     <h1>Tripay</h1>
 
+    <!-- HOME -->
+    <a href="../trip/index.php" class="<?= $cp_active === 'home' ? 'cp-active' : '' ?>">
+        <span class="cp-icon">🏠</span>
+        <span>Home</span>
+    </a>
 
     <a href="../trip/detail.php?trip_id=<?php echo $_SESSION['trip_id'] ?>" class="<?= $cp_active === 'trip' ? 'cp-active' : '' ?>">
         <span class="cp-icon">🧳</span>
         <span>Details</span>
     </a>
 
-    <a href="../trip/index.php" class="<?= $cp_active === 'dashboard' ? 'cp-active' : '' ?>">
+    <a href="../trip/transaction.php" class="<?= $cp_active === 'expense' ? 'cp-active' : '' ?>">
         <span class="cp-icon">📊</span>
         <span>Expense</span>
     </a>

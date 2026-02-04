@@ -15,6 +15,7 @@
         justify-content: space-between;
         gap: 12px;
         margin-bottom: 14px;
+        padding-right: 20px;
     }
 
     .cp-back-btn {
@@ -438,5 +439,16 @@
 
     .cp-user-addbtn:hover {
         background: #4f46e5;
+    }
+
+    .cp-member-link {
+        text-decoration: none;
+        color: #111827;
+        font-weight: 800;
+    }
+
+    .cp-member-link:hover {
+        color: #6366f1;
+        text-decoration: underline;
     }
 </style>
