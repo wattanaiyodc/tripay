@@ -1,7 +1,6 @@
 <?php
 session_start();
 include '../db.php';
-header('Content-Type: application/json');
 
 /* ================== helper : upload image ================== */
 function upload_trip_image($file)

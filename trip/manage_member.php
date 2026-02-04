@@ -68,6 +68,8 @@ include 'components/component_sidebar.php';
         </tbody>
     </table>
 </div>
+
+
 <script>
     var json_request = {
         user_id: <?php echo $_SESSION['user_id']; ?>,
@@ -271,52 +273,61 @@ include 'components/component_sidebar.php';
 
                 if (list.length === 0) {
                     $('#member_list').html(`
-                        <tr class="cp-empty-row">
-                            <td colspan="4" class="cp-empty">ยังไม่มีสมาชิก</td>
-                        </tr>
-                    `);
+                    <tr class="cp-empty-row">
+                        <td colspan="4" class="cp-empty">ยังไม่มีสมาชิก</td>
+                    </tr>
+                `);
                     return;
                 }
 
                 $.each(list, function(idx, user) {
+
                     let fullName = ((user.first_name ?? '') + ' ' + (user.last_name ?? '')).trim();
                     let avatarUrl = (user.avatar_url ?? '').trim();
                     let role = (user.role ?? '').toLowerCase();
 
                     let avatarHtml = avatarUrl ?
                         `<img class="cp-avatar-img" src="${avatarUrl}" alt="avatar">` :
-                        `<div class="cp-avatar-fallback">${(fullName || 'U').substr(0,1).toUpperCase()}</div>`;
+                        `<div class="cp-avatar-fallback">${(fullName || 'U').substr(0, 1).toUpperCase()}</div>`;
 
                     let badgeClass = (role === 'master') ? 'cp-badge-master' : 'cp-badge-member';
                     let roleText = (role === 'master') ? 'Master' : (user.role ?? '-');
 
                     html += `
-                        <tr>
-                            <td style="width:70px;">${avatarHtml}</td>
+                <tr>
+                    <td style="width:70px;">${avatarHtml}</td>
 
-                            <td>
-                                <div class="cp-name">${fullName || '-'}</div>
-                                <div class="cp-email">${user.email ?? ''}</div>
-                            </td>
+                    <td>
+                        <a href="edit_member.php?trip_id=<?php echo $_SESSION["trip_id"]; ?>&user_id=${user.user_id}"
+                           class="cp-name cp-member-link">
+                            ${fullName || '-'}
+                        </a>
+                        <div class="cp-email">${user.email ?? ''}</div>
+                    </td>
 
-                            <td>
-                                <span class="cp-badge ${badgeClass}">${roleText}</span>
-                            </td>
+                    <td>
+                        <span class="cp-badge ${badgeClass}">${roleText}</span>
+                    </td>
 
-                            <td>
-                                <div class="cp-actions">
-                                    <button type="button" class="cp-icon-action cp-icon-danger btn-del" title="ลบ" data-member-id="${user.member_id ?? ''}">🗑️</button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                    // "<button type="button" class="cp-icon-action btn-edit" title="แก้ไข" data-member-id="${user.member_id ?? ''}">✏️</button>"
+                    <td>
+                        <div class="cp-actions">
+                            <button type="button"
+                                class="cp-icon-action cp-icon-danger btn-del"
+                                title="ลบ"
+                                data-member-id="${user.member_id ?? ''}">
+                                🗑️
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                `;
                 });
 
                 $('#member_list').html(html);
             }
         });
     }
+
 
     function delete_member(member_id) {
         var q = json_request;
@@ -339,13 +350,13 @@ include 'components/component_sidebar.php';
         })
     }
 
-    function edit_member(member_id){
+    function edit_member(member_id) {
         var q = json_request;
-            q["member_id"] = member_id
+        q["member_id"] = member_id
 
-            $.ajax({
-                url: 'api/engine-member/edit_member.php'
-            });
+        $.ajax({
+            url: 'api/engine-member/edit_member.php'
+        });
     }
     // ====== READY ======
     $(document).ready(function() {

@@ -21,559 +21,7 @@ include 'components/component_header.php';
 include 'components/component_sidebar.php';
 ?>
 
-<style>
-    /* ===== base card ===== */
-    .cp-box {
-        background: #fff;
-        padding: 20px;
-        margin-bottom: 24px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, .06);
-    }
-
-    /* ===== back button ===== */
-    .cp-back-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 8px 14px;
-        border-radius: 999px;
-        background: #f3f4f6;
-        color: #111827;
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    .cp-back-btn:hover {
-        background: #e5e7eb;
-    }
-
-    /* ===== 2 column layout ===== */
-    .cp-grid-2 {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 24px;
-        align-items: flex-start;
-    }
-
-    @media (max-width: 900px) {
-        .cp-grid-2 {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    /* ===== labels ===== */
-    .cp-label {
-        font-size: 15px;
-        color: #000000ff;
-    }
-
-    /* ===== header row ===== */
-    .cp-box-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 12px;
-    }
-
-    /* ===== icon button ===== */
-    .cp-icon-btn {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        border: none;
-        background: #6366f1;
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
-    }
-
-    .cp-icon-btn:hover {
-        background: #4f46e5;
-    }
-
-    /* ===== inline form ===== */
-    .cp-inline-form {
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 30px;
-        margin-bottom: 16px;
-        margin-right: 5px;
-    }
-
-    .cp-form-group {
-        margin-bottom: 12px;
-    }
-
-    .cp-form-group label {
-        display: block;
-        font-size: 13px;
-        color: #6b7280;
-        margin-bottom: 4px;
-    }
-
-    .cp-form-group input,
-    .cp-form-group textarea {
-        width: 100%;
-        padding: 8px 10px;
-        border-radius: 8px;
-        border: 1px solid #d1d5db;
-    }
-
-    .cp-form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
-
-    .cp-form-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        margin-top: 10px;
-    }
-
-    /* ===== timeline table ===== */
-    .cp-timeline-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0 10px;
-    }
-
-    .cp-timeline-row td {
-        background: #f9fafb;
-        padding: 12px 14px;
-        border: 1px solid #e5e7eb;
-        vertical-align: middle;
-    }
-
-    .cp-time {
-        width: 160px;
-        font-size: 13px;
-        color: #6b7280;
-        white-space: nowrap;
-        border-radius: 10px 0 0 10px;
-    }
-
-    .cp-title {
-        font-weight: 500;
-    }
-
-    .cp-action {
-        width: 40px;
-        text-align: right;
-        border-radius: 0 10px 10px 0;
-    }
-
-    /* detail row */
-    .cp-timeline-detail-row td {
-        padding: 0;
-        border: none;
-        background: transparent;
-    }
-
-    .cp-detail-box {
-        display: none;
-        overflow: hidden;
-        background: #fff;
-        padding: 12px 14px;
-        border: 1px solid #e5e7eb;
-        border-top: none;
-        border-radius: 0 0 10px 10px;
-        font-size: 13px;
-        color: #4b5563;
-    }
-
-    /* toggle btn */
-    .cp-toggle-btn {
-        border: none;
-        background: none;
-        cursor: pointer;
-        font-size: 16px;
-        color: #6b7280;
-    }
-
-    .cp-timeline-row.open .cp-toggle-btn {
-        transform: rotate(180deg);
-    }
-
-    /* ===== action area ===== */
-    .cp-form-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 12px;
-        margin-top: 20px;
-    }
-
-    /* base button */
-    .cp-btn {
-        padding: 10px 18px;
-        border-radius: 10px;
-        font-size: 14px;
-        font-weight: 500;
-        border: none;
-        cursor: pointer;
-        transition: all .15s ease;
-    }
-
-    /* primary */
-    .cp-btn-primary {
-        background: #6366f1;
-        color: #fff;
-        box-shadow: 0 6px 14px rgba(99, 102, 241, .25);
-    }
-
-    .cp-btn-primary:hover {
-        background: #4f46e5;
-        transform: translateY(-1px);
-    }
-
-    .cp-btn-primary:active {
-        transform: translateY(0);
-    }
-
-    /* secondary */
-    .cp-btn-secondary {
-        background: #f9fafb;
-        color: #374151;
-        border: 1px solid #e5e7eb;
-    }
-
-    .cp-btn-secondary:hover {
-        background: #f3f4f6;
-    }
-
-    /* disabled (เผื่อใช้) */
-    .cp-btn:disabled {
-        opacity: .6;
-        cursor: not-allowed;
-    }
-
-    /* ===== timeline tabs ===== */
-    .cp-tabs {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-bottom: 12px;
-    }
-
-    .cp-tab-btn {
-        padding: 8px 12px;
-        border-radius: 999px;
-        border: 1px solid #e5e7eb;
-        background: #f9fafb;
-        cursor: pointer;
-        font-size: 13px;
-        color: #374151;
-    }
-
-    .cp-tab-btn:hover {
-        background: #f3f4f6;
-    }
-
-    .cp-tab-btn.active {
-        background: #6366f1;
-        color: #fff;
-        border-color: #6366f1;
-    }
-
-    #trip_location {
-        font-weight: 500;
-        color: #111827;
-    }
-
-    .cp-map-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
-        border-radius: 999px;
-        border: 1px solid #e5e7eb;
-        background: #f9fafb;
-        text-decoration: none;
-        color: #111827;
-        font-weight: 500;
-        transition: all .15s ease;
-    }
-
-    .cp-map-link:hover {
-        background: #eef2ff;
-        border-color: #c7d2fe;
-        transform: translateY(-1px);
-    }
-
-    .cp-map-icon {
-        font-size: 12px;
-        color: #6b7280;
-    }
-
-    .cp-map-card {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 14px;
-        border-radius: 14px;
-        border: 1px solid #e5e7eb;
-        background: #fff;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, .06);
-        transition: all .15s ease;
-    }
-
-    .cp-map-card:hover {
-        transform: translateY(-1px);
-        border-color: #c7d2fe;
-        box-shadow: 0 10px 22px rgba(0, 0, 0, .08);
-    }
-
-    .cp-map-pin {
-        width: 38px;
-        height: 38px;
-        border-radius: 12px;
-        background: #eef2ff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-    }
-
-    .cp-map-title {
-        font-weight: 600;
-        color: #111827;
-        line-height: 1.2;
-    }
-
-    .cp-map-sub {
-        font-size: 12px;
-        color: #6b7280;
-        margin-top: 2px;
-    }
-
-    .cp-map-open {
-        text-decoration: none;
-        background: #6366f1;
-        color: #fff;
-        padding: 8px 12px;
-        border-radius: 999px;
-        font-size: 13px;
-        font-weight: 600;
-        white-space: nowrap;
-    }
-
-    .cp-map-open:hover {
-        background: #4f46e5;
-    }
-
-    .cp-map-empty {
-        color: #6b7280;
-        font-weight: 500;
-    }
-
-    .cp-trip-title {
-        font-size: 28px;
-        font-weight: 800;
-        margin: 10px 0 14px;
-        color: #111827;
-    }
-
-    .cp-trip-meta {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px 18px;
-        margin-top: 10px;
-    }
-
-    @media (max-width: 900px) {
-        .cp-trip-meta {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    .cp-meta-item {
-        background: #f9fafb;
-        border: 1px solid #e5e7eb;
-        border-radius: 14px;
-        padding: 12px 14px;
-    }
-
-    .cp-meta-item-full {
-        grid-column: 1 / -1;
-    }
-
-    .cp-meta-label {
-        font-size: 13px;
-        color: #6b7280;
-        margin-bottom: 6px;
-    }
-
-    .cp-meta-value {
-        font-size: 15px;
-        font-weight: 700;
-        color: #111827;
-    }
-
-    /* ===== map card (new) ===== */
-    .cp-map-card2 {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 14px;
-        border-radius: 16px;
-        border: 1px solid #e5e7eb;
-        background: #ffffff;
-        text-decoration: none;
-        transition: all .18s ease;
-    }
-
-    .cp-map-card2:hover {
-        border-color: #c7d2fe;
-        box-shadow: 0 10px 22px rgba(0, 0, 0, .08);
-        transform: translateY(-1px);
-    }
-
-    .cp-map-card2-icon {
-        width: 42px;
-        height: 42px;
-        border-radius: 14px;
-        background: #eef2ff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        flex: 0 0 auto;
-    }
-
-    .cp-map-card2-body {
-        min-width: 0;
-        flex: 1 1 auto;
-    }
-
-    .cp-map-card2-title {
-        font-weight: 800;
-        color: #111827;
-        line-height: 1.2;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .cp-map-card2-sub {
-        font-size: 12px;
-        color: #6b7280;
-        margin-top: 2px;
-    }
-
-    .cp-map-card2-action {
-        background: #6366f1;
-        color: #fff;
-        font-size: 13px;
-        font-weight: 700;
-        padding: 8px 12px;
-        border-radius: 999px;
-        flex: 0 0 auto;
-    }
-
-    .cp-meta-empty {
-        color: #6b7280;
-        font-weight: 600;
-    }
-
-    .member-table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .member-table th,
-    .member-table td {
-        padding: 10px 12px;
-        border-bottom: 1px solid #e5e7eb;
-        text-align: left;
-        vertical-align: middle;
-    }
-
-    .cp-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 999px;
-        overflow: hidden;
-        border: 1px solid #e5e7eb;
-        background: #f3f4f6;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        color: #6b7280;
-        font-size: 14px;
-    }
-
-    .cp-avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .td-avatar {
-        width: 60px;
-        position: relative;
-    }
-
-    .td-avatar::after {
-        content: "";
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 1px;
-        height: 26px;
-        background: #e5e7eb;
-    }
-
-    .cp-edit-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 999px;
-        border: 1px solid #e5e7eb;
-        background: #ffffff;
-        color: #111827;
-        cursor: pointer;
-
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-
-        font-size: 16px;
-        line-height: 1;
-
-        transition: all .15s ease;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, .06);
-    }
-
-    .cp-edit-btn:hover {
-        background: #eef2ff;
-        border-color: #c7d2fe;
-        transform: translateY(-1px);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, .10);
-    }
-
-    .cp-edit-btn:active {
-        transform: translateY(0px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, .06);
-    }
-
-    .cp-edit-btn:focus {
-        outline: none;
-        box-shadow: 0 0 0 4px rgba(99, 102, 241, .25), 0 4px 10px rgba(0, 0, 0, .06);
-    }
-
-    .cp-edit-btn:disabled {
-        opacity: .5;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-</style>
+<?php include('detail/detail_headerscript.php'); ?>
 
 
 <!-- ================= กล่องรายละเอียดทริป ================= -->
@@ -611,6 +59,37 @@ include 'components/component_sidebar.php';
     </div>
 </div>
 
+
+<div class="cp-box">
+    <button id="import_slip" class="cp-btn-import">
+        📷 นำเข้าข้อมูลจากสลิป
+    </button>
+
+    <!-- input แนบรูป (ซ่อนไว้) -->
+    <input type="file" id="slip_file" accept="image/*" hidden>
+    <div id="qr-temp" style="display:none;"></div>
+</div>
+
+<!-- ===== MODAL ===== -->
+<div id="slip_modal" class="cp-modal">
+    <div class="cp-modal-backdrop"></div>
+
+    <div class="cp-modal-box">
+        <div class="cp-modal-header">
+            <h3>📄 ข้อมูลจากสลิป</h3>
+            <button class="cp-modal-close" id="close_modal">✕</button>
+        </div>
+
+        <div class="cp-modal-body" id="slip_result">
+            <div class="cp-loading">กำลังประมวลผลสลิป...</div>
+        </div>
+
+        <div class="cp-modal-footer">
+            <button class="cp-btn-secondary" id="cancel_modal">ปิด</button>
+            <button class="cp-btn-primary" id="confirm_modal">บันทึก</button>
+        </div>
+    </div>
+</div>
 <!-- ===== Timeline + Member ===== -->
 <div class="cp-grid-2">
 
@@ -694,7 +173,7 @@ include 'components/component_sidebar.php';
 
 
 
-
+<script src="https://unpkg.com/html5-qrcode"></script>
 <script>
     var json_request = {
         user_id: <?php echo $_SESSION['user_id']; ?>,
@@ -726,8 +205,8 @@ include 'components/component_sidebar.php';
     });
 
     $('#btn_back').click(function() {
-        unset($_SESSION['trip_id']);
-    })
+        location.href = 'index.php';
+    });
     $('#btn_edit_member').click(function() {
         location.href = `manage_member.php?trip_id=<?php echo $trip_id ?>`;
     });
@@ -761,7 +240,240 @@ include 'components/component_sidebar.php';
         create_timeline();
     });
 
+    $('#import_slip').on('click', function() {
+        $('#slip_file').click();
+    });
 
+    $('#slip_file').on('change', function() {
+        if (!this.files.length) return;
+
+        openModal();
+        showLoading();
+
+        const file = this.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const img = new Image();
+            img.src = e.target.result;
+
+            img.onload = function() {
+                const html5QrCode = new Html5Qrcode("qr-temp");
+
+                html5QrCode.scanFile(file, true)
+                    .then(qrText => {
+                        console.log('QR STRING:', qrText);
+
+                        verifySlipByQR(qrText);
+                    })
+                    .catch(err => {
+                        $('#slip_result').html(`
+                        <div style="color:red;font-weight:700;">
+                            ไม่สามารถอ่าน QR Code จากรูปได้
+                        </div>
+                    `);
+                    });
+            };
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+    function verifySlipByQR(qrString) {
+        $.ajax({
+            url: 'api/engine-slip/verify.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                json: JSON.stringify({
+                    qr: qrString,
+                    trip_id: json_request.trip_id
+                })
+            },
+            success: function(res) {
+                if (res.status !== 'success') {
+                    $('#slip_result').html(`
+                    <div style="color:red;font-weight:700;">
+                        ${res.message || 'ตรวจสอบสลิปล้มเหลว'}
+                    </div>
+                `);
+                    return;
+                }
+
+                renderSlipData(res.data);
+            },
+            error: function() {
+                $('#slip_result').html(`
+                <div style="color:red;font-weight:700;">
+                    ไม่สามารถติดต่อ API ได้
+                </div>
+            `);
+            }
+        });
+    }
+
+
+    function openModal() {
+        $('#slip_modal').fadeIn(120);
+    }
+
+    function closeModal() {
+        $('#slip_modal').fadeOut(120);
+    }
+
+    $('#close_modal, #cancel_modal, .cp-modal-backdrop').on('click', closeModal);
+
+    function showLoading() {
+        $('#slip_result').html('<div class="cp-loading">กำลังประมวลผลสลิป...</div>');
+    }
+
+    function renderSlipData(d) {
+        $('#slip_result').html(`
+        <table class="cp-table">
+            <tr>
+                <td><strong>จากธนาคาร</strong></td>
+                <td id="slip_bank_from">
+                    ${d.bank_from ?? '-'}
+                </td>
+            </tr>
+
+            <tr>
+                <td><strong>ถึงธนาคาร</strong></td>
+                <td id="slip_bank_to">
+                    ${d.bank_to ?? '-'}
+                </td>
+            </tr>
+
+            <tr>
+                <td><strong>วันที่</strong></td>
+                <td>
+                    <span id="slip_tx_date">${d.tx_date ?? '-'}</span>
+                    <span id="slip_tx_time">${d.tx_time ?? ''}</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><strong>จาก</strong></td>
+                <td id="slip_from">
+                    ${d.from ?? '-'}
+                </td>
+            </tr>
+
+            <tr>
+                <td><strong>ถึง</strong></td>
+                <td id="slip_to">
+                    ${d.to ?? '-'}
+                </td>
+            </tr>
+
+            <tr>
+                <td><strong>จำนวนเงิน</strong></td>
+                <td style="color:#16a34a;font-weight:800;">
+                    <span id="slip_amount">
+                        ${Number(d.amount || 0).toFixed(2)}
+                    </span>
+                    บาท
+                </td>
+            </tr>
+
+            <tr>
+                <td><strong>เลขอ้างอิง</strong></td>
+                <td id="slip_ref">
+                    ${d.reference_id ?? '-'}
+                </td>
+            </tr>
+
+            <!-- ===== เลือก DR / CR ===== -->
+            <tr>
+                <td><strong>ประเภท</strong></td>
+                <td>
+                    <label style="margin-right:12px;">
+                        <input type="radio"
+                            name="tx_type"
+                            id="tx_type_dr"
+                            value="DR"
+                            checked>
+                        รายจ่าย (DR)
+                    </label>
+
+                    <label>
+                        <input type="radio"
+                            name="tx_type"
+                            id="tx_type_cr"
+                            value="CR">
+                        รายรับ (CR)
+                    </label>
+                </td>
+            </tr>
+        </table>
+
+    `);
+    }
+
+
+    $('#confirm_modal').on('click', function() {
+        save_confirm();
+        closeModal();
+    });
+
+    function save_confirm() {
+        let msg = `คุณต้องการบันทึกรายการนี้ใช่หรือไม่?`;
+        if (!confirm(msg)) {
+            return false; // ผู้ใช้กดยกเลิก
+        }
+        save_function();
+    }
+
+    function save_function() {
+        let q = Object.assign({}, json_request);
+        q.detail = {};
+        q["detail"]["slip_bank_from"] = $('#slip_bank_from').text().trim();
+        q["detail"]["slip_bank_to"] = $('#slip_bank_to').text().trim();
+        q["detail"]["slip_tx_date"] = $('#slip_tx_date').text().trim();
+        q["detail"]["slip_tx_time"] = $('#slip_tx_time').text().trim();
+        q["detail"]["slip_from"] = $('#slip_from').text().trim();
+        q["detail"]["slip_to"] = $('#slip_to').text().trim();
+        q["detail"]["slip_amount"] = Number($('#slip_amount').text().replace(/,/g, '')) || 0;
+        q["detail"]["slip_ref"] = $('#slip_ref').text().trim();
+        q["type"] = $('input[name="tx_type"]:checked').val();
+        q["source"] = 'slip';
+
+        var json = JSON.stringify(q);
+        $.ajax({
+            url: 'api/engine-transaction/create_transaction.php',
+            type: 'post',
+            data: {
+                json: json
+            },
+            dataType: 'json',
+            success: function(res) {
+                if (res.success != 1) {
+                    alert(res.message);
+                    return false;
+                }
+            }
+        });
+
+    }
+
+    function buildTransactionPayload() {
+        let type = $('input[name="tx_type"]:checked').val(); // DR | CR
+        let amount = Number($('#tx_amount').val()) || 0;
+
+        let debit = 0;
+        let credit = 0;
+
+        if (type === 'DR') {
+            debit = amount;
+        } else {
+            credit = amount;
+        }
+
+        return {
+            debit: debit,
+            credit: credit
+        };
+    }
 
     function retrieve_trip() {
         $.ajax({
