@@ -2,12 +2,15 @@
 session_start();
 include('../db.php');
 
+
 if (!isset($_SESSION['user_id'])) {
     exit(json_encode([
         'status'  => 'error',
         'message' => 'no user'
     ]));
 }
+
+$user_id = (int)($_SESSION['user_id']);
 
 $data = json_decode($_POST['json'] ?? '', true);
 if (!is_array($data)) {
@@ -16,39 +19,51 @@ if (!is_array($data)) {
         'message' => 'invalid payload'
     ]));
 }
+$trip_id   = (int)($data['trip_id'] ?? 0);
+$member_id = (int)($data['member_id'] ?? 0);
 
-if (empty($data['trip_id'])) {
+if ($trip_id <= 0 || $member_id <= 0) {
     exit(json_encode([
         'status'  => 'error',
-        'message' => 'trip_id invalid'
+        'message' => 'missing trip_id or member_id'
     ]));
 }
 
-$trip_id = $data["trip_id"]; 
+/* ===== CHECK ROLE MASTER ===== */
+$sth = $pdo2->prepare("
+    SELECT role
+    FROM members
+    WHERE user_id = :user_id
+      AND trip_id = :trip_id
+    LIMIT 1
+");
+$sth->execute([
+    ':user_id' => $user_id,
+    ':trip_id' => $trip_id
+]);
 
+$role = $sth->fetchColumn();
+
+if ($role !== 'master') {
+    exit(json_encode([
+        'status'  => 'error',
+        'message' => 'no permission'
+    ]));
+}
 try{
-    $sql = "select a.member_id, b.first_name, b.last_name, b.role
-            from members a
-            inner join users b on a.user_id = b.user_id
-            where trip_id = :trip_id";
+    $sql = "se";
     $sth = $pdo2->prepare($sql);
-    $sth->execute([
-        ':trip_id' => $trip_id
-    ]);
+    $sth->execute();
     if ($sth->errorInfo()[0] != "00000" && !empty($sth->errorInfo()[0])) {
       $answer["message"] = (empty($sth->errorInfo()[2])) ? $sth->errorInfo()[0] : $sth->errorInfo()[2];
       exit(json_encode($answer));
     }
-    $result = array();
-    while($r = $sth->fetch(PDO::FETCH_ASSOC)){
-        array_push($result,$r);
+} catch (Exception $e) {
+
+    if ($pdo2->inTransaction()) {
+        $pdo2->rollBack();
     }
 
-    exit(json_encode([
-        'status' => 'success',
-        'result' => $result
-    ]));
-} catch (PDOException $e) {
     exit(json_encode([
         'status'  => 'error',
         'message' => $e->getMessage()
