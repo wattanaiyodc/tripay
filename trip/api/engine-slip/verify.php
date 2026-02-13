@@ -22,10 +22,7 @@ if (file_exists($envPath)) {
     }
 }
 $k = $_ENV['SLIP2GO_KEY'] ?? '';
-echo "<pre>";
-print_r($k);
-echo "</pre>";
-exit();
+
 $ch = curl_init('https://connect.slip2go.com/api/verify-slip/qr-code/info');
 
 curl_setopt_array($ch, [

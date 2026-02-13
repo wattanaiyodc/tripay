@@ -731,4 +731,116 @@
         outline: none;
         box-shadow: 0 0 0 4px rgba(99, 102, 241, .25);
     }
+
+    /* ปุ่ม Import Slip */
+    .cp-btn-create {
+        width: 100%;
+        height: 64px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        border: none;
+        border-radius: 14px;
+
+        background: linear-gradient(135deg, #f16363, #4f46e5);
+        color: #fff;
+
+        margin-top: 20px;
+
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: .3px;
+
+        cursor: pointer;
+        transition: all .2s ease;
+        box-shadow: 0 12px 28px rgba(99, 102, 241, .35);
+    }
+
+    .cp-dropdown {
+        position: relative;
+        width: 220px;
+    }
+
+    .cp-dropdown-display {
+        border: 1px solid #d1d5db;
+        padding: 6px 10px;
+        cursor: pointer;
+        background: #fff;
+    }
+
+    .cp-dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        max-height: 220px;
+        overflow: auto;
+        display: none;
+        z-index: 1000;
+    }
+
+    .cp-dd-item {
+        display: block;
+        padding: 6px 10px;
+        cursor: pointer;
+    }
+
+    .cp-ms {
+        position: relative;
+        width: 260px;
+        font-size: 14px;
+    }
+
+    .cp-ms-display {
+        border: 1px solid #d1d5db;
+        padding: 7px 10px;
+        background: #fff;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 6px;
+    }
+
+    .cp-ms-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        margin-top: 4px;
+        display: none;
+        z-index: 999;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .cp-ms-search {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #eee;
+        padding: 8px;
+        outline: none;
+    }
+
+    .cp-ms-list {
+        max-height: 220px;
+        overflow: auto;
+    }
+
+    .cp-ms-item {
+        display: block;
+        padding: 6px 10px;
+        cursor: pointer;
+    }
+
+    .cp-ms-item:hover {
+        background: #f3f4f6;
+    }
 </style>

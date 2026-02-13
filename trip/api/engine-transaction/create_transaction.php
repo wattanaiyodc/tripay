@@ -30,6 +30,8 @@ $tx_date = $detail['slip_tx_date'] ?? '';
 $tx_time = $detail['slip_tx_time'] ?? '';
 $desc    = $detail['slip_to'] ?? 'Slip import';
 $ref     = $detail["slip_ref"];
+$note    = $data["note"] ?? '';
+$source  = $data["source"] ?? 'manual'; 
 
 /* ===== validate ===== */
 if ($trip_id <= 0) {
@@ -94,7 +96,7 @@ try {
             :debit,
             :credit,
             '',
-            '',
+            :note,
             :detail,
             :reference
 
@@ -110,6 +112,7 @@ try {
         ':description' => $desc,
         ':debit'       => $debit,
         ':credit'      => $credit,
+        ':note'        => $note,
         ':detail' => json_encode($detail, JSON_UNESCAPED_UNICODE),
         ':reference'   => $ref
     ]);

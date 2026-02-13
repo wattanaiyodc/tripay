@@ -19,8 +19,8 @@ $cp_active = 'manage_member';
 include 'components/component_header.php';
 include 'components/component_sidebar.php';
 ?>
-<?php include("manage_member_headerscript.php"); ?>
-<?php include("manage_member_modal.php"); ?>
+<?php include("manage_member/manage_member_headerscript.php"); ?>
+<?php include("manage_member/manage_member_modal.php"); ?>
 <div class="cp-box">
     <div class="cp-box-header">
         <div>

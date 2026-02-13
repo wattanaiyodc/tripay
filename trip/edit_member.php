@@ -19,7 +19,7 @@ $cp_active = 'edit_member';
 include 'components/component_header.php';
 include 'components/component_sidebar.php';
 ?>
-<?php include("edit_member_headerscript.php") ;?> 
+<?php include("edit_member/edit_member_headerscript.php") ;?> 
 <div class="cp-box">
     <div class="cp-box-header">
         <div>
