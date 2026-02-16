@@ -1,4 +1,54 @@
 <script src="https://unpkg.com/html5-qrcode"></script>
+<script src="https://cdn.jsdelivr.net/npm/promptpay-qr@0.3.0/dist/promptpay-qr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script>
+    function generatePromptPayPayload(account, amount) {
+
+        function formatID(id) {
+            id = id.replace(/[^0-9]/g, '');
+
+            // เบอร์โทร
+            if (id.length === 10 && id.startsWith('0')) {
+                return '0066' + id.substring(1);
+            }
+
+            // บัตรประชาชน / wallet
+            return id;
+        }
+
+        function crc16(s) {
+            let crc = 0xFFFF;
+            for (let i = 0; i < s.length; i++) {
+                crc ^= s.charCodeAt(i) << 8;
+                for (let j = 0; j < 8; j++) {
+                    crc = (crc & 0x8000) ?
+                        (crc << 1) ^ 0x1021 :
+                        crc << 1;
+                }
+            }
+            return ('0000' + (crc & 0xFFFF).toString(16).toUpperCase()).slice(-4);
+        }
+
+        const acc = formatID(account);
+
+        let payload =
+            "000201010211" +
+            "29370016A000000677010111" +
+            "0113" + acc +
+            "5303764";
+
+        if (amount > 0) {
+            const amt = amount.toFixed(2);
+            payload += "54" + ("00" + amt.length).slice(-2) + amt;
+        }
+
+        payload += "5802TH6304";
+
+        payload += crc16(payload);
+
+        return payload;
+    }
+</script>
 <script>
     var json_request = {
         user_id: <?php echo $_SESSION['user_id']; ?>,
@@ -121,6 +171,222 @@
 
         reader.readAsDataURL(file);
     });
+
+    $(document).on('click', '.cp-modal-close', function() {
+
+        qr_step = 1;
+
+        $('#qr_modal_title').text('สร้าง QR รับเงิน');
+        $('#qr_step_preview').hide();
+        $('#qr_step_form').show();
+        $('#btn_generate_qr').text('ต่อไป');
+
+    });
+    let qr_step = 1; // 1=form , 2=preview
+
+    $('#btn_generate_qr').on('click', function() {
+
+        // STEP 1
+        if (qr_step === 1) {
+
+            let price = $('#qr_price').val();
+
+            if (!price) {
+                alert('กรุณากรอกจำนวนเงิน');
+                return;
+            }
+
+            qr_step = 2;
+
+            $('#qr_modal_title').text('Preview QR');
+            $('#qr_step_form').hide();
+            $('#qr_step_preview').show();
+            $('#btn_generate_qr').text('บันทึก');
+
+            // ⭐ generate QR ตรงนี้
+            gen_qr_preview();
+
+            return;
+        }
+
+        // STEP 2
+        if (qr_step === 2) {
+
+            create_notice_qrcode();
+        }
+
+    });
+
+
+    // ===== ปุ่มย้อนกลับ =====
+    $('#btn_back_step').on('click', function() {
+
+        qr_step = 1;
+
+        $('#qr_modal_title').text('สร้าง QR รับเงิน');
+        $('#qr_step_preview').hide();
+        $('#qr_step_form').show();
+
+        // 🔥 เปลี่ยนชื่อปุ่มกลับ
+        $('#btn_generate_qr').text('ต่อไป');
+    });
+    let qr_member_loaded = false;
+
+
+    // toggle custom area
+    $(document).on('change', 'input[name="to_mode"]', function() {
+
+        if ($(this).val() === 'custom') {
+            $('#to_custom_area').slideDown(120);
+
+            retrieve_qr_member();
+
+        } else {
+            $('#to_custom_area').slideUp(120);
+        }
+    });
+
+    function create_notice_qrcode() {
+
+        let q = Object.assign({}, json_request);
+
+        // ===== ข้อมูล QR =====
+        q.amount = Number($('#qr_price').val()) || 0;
+        //q.detail = $('#detail').val();
+        q.to_mode = $('input[name="to_mode"]:checked').val();
+        //q.title   = $('#title').val().trim();
+
+        // ===== collect user_id =====
+        q.to_ids = [];
+        $('.to_item').each(function() {
+            console.log($(this).val());
+        });
+        if (q.to_mode === 'custom') {
+
+            $('.to_item:checked').each(function() {
+                q.to_ids.push($(this).val());
+            });
+
+            if (q.to_ids.length === 0) {
+                alert('กรุณาเลือกผู้รับ');
+                return;
+            }
+        }
+
+        // ===== endpoint =====
+        var url = 'api/engine-notice/create_notice_qr.php';
+
+        var json = JSON.stringify(q);
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                json: json
+            },
+            success: function(res) {
+
+                if (res.success !== 1) {
+                    alert(res.message || 'บันทึกไม่สำเร็จ');
+                    return;
+                }
+
+                alert('สร้าง QR สำเร็จ');
+
+                // ปิด modal
+                $('#qr_modal').fadeOut(120);
+
+                // reset form ถ้าคุณต้องการ
+                // resetQrModal();
+            }
+        });
+    }
+
+    function retrieve_qr_member() {
+
+        var q = json_request;
+        var url = 'api/engine-member/retrieve_member.php';
+        var json = JSON.stringify(q);
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                json: json
+            },
+            success: function(res) {
+
+                if (res.status !== 'success') {
+                    alert(res.message);
+                    return;
+                }
+
+                var result = res.result || [];
+                var html = '';
+
+                if (!result.length) {
+                    $('#to_list').html('<div>ไม่มีสมาชิก</div>');
+                    return;
+                }
+
+                $.each(result, function(index, item) {
+
+                    let fullName = `${item.first_name ?? ''} ${item.last_name ?? ''}`.trim();
+
+                    html += `
+                        <label class="cp-check-item">
+                            <input type="checkbox"
+                                class="to_item"
+                                value="${item.user_id}">
+                            <span>${fullName}</span>
+                        </label>
+                        `;
+                });
+
+                $('#to_list').html(html);
+            }
+        });
+    }
+
+    function gen_qr_preview() {
+
+        var q = json_request;
+        var url = 'api/engine-trip/retrieve_detail_trip.php';
+        var json = JSON.stringify(q);
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                json: json
+            },
+            success: function(res) {
+
+                if (res.status !== 'success') {
+                    alert(res.message);
+                    return;
+                }
+
+                let trip = res.result;
+                let promptpay_id = trip.promptpay;
+                let amount = Number($('#qr_price').val()) || 0;
+                
+                let payload = generatePromptPayPayload(promptpay_id, amount);
+
+                $('#qr_preview').html('<canvas id="qr_canvas"></canvas>');
+
+                QRCode.toCanvas(
+                    document.getElementById('qr_canvas'),
+                    payload, {
+                        width: 220
+                    }
+                );
+            }
+        });
+    }
 
     function verifySlipByQR(qrString) {
         $.ajax({

@@ -2,56 +2,80 @@
 <div id="qr_modal" class="cp-modal" style="display:none;">
     <div class="cp-modal-backdrop"></div>
 
-    <div class="cp-modal-box">
+    <div class="cp-modal-box" style="max-width:420px;">
         <div class="cp-modal-header">
-            <h3>QR Code</h3>
+            <h3 id="qr_modal_title">สร้าง QR รับเงิน</h3>
             <button class="cp-modal-close">✕</button>
         </div>
 
-        <div class="cp-modal-body" id="content_qr">
-            <table>
-                <tr>
-                    <td><strong>ราคา: </strong></td>
-                    <td><input type="number" id="qr_price"></input></td>
-                </tr>
-                <tr>
-                    <td><strong>รายละเอียด: </strong></td>
-                    <td><input type="text" id="detail"></input></td>
-                </tr>
-                <tr>
-                    <td><strong>to:</strong></td>
-                    <td>
+        <div class="cp-modal-body">
 
-                        <div class="cp-ms" id="to_ms">
+            <!-- ================= STEP 1 : FORM ================= -->
+            <div id="qr_step_form">
 
-                            <!-- display -->
-                            <div class="cp-ms-display">
-                                <span class="cp-ms-text">เลือกผู้รับ</span>
-                                <span class="cp-ms-arrow">▾</span>
+                <table class="cp-table" width="100%">
+                    <tr>
+                        <td width="120"><strong>จำนวนเงิน:</strong></td>
+                        <td>
+                            <input type="number"
+                                id="qr_price"
+                                placeholder="0.00"
+                                style="width:100%;">
+                        </td>
+                    </tr>
+
+                    
+
+                    <tr>
+                        <td style="vertical-align:top;"><strong>ผู้รับ:</strong></td>
+                        <td>
+
+                            <label style="margin-right:12px;">
+                                <input type="radio" name="to_mode" value="all" checked>
+                                ทั้งหมด (All)
+                            </label>
+
+                            <label>
+                                <input type="radio" name="to_mode" value="custom">
+                                กำหนดเอง
+                            </label>
+
+                            <div id="to_custom_area" style="margin-top:10px;display:none;">
+                                <div id="to_list" class="cp-check-list"></div>
                             </div>
 
-                            <!-- dropdown -->
-                            <div class="cp-ms-menu">
+                        </td>
+                    </tr>
+                </table>
 
-                                <!-- search -->
-                                <input type="text" class="cp-ms-search" placeholder="ค้นหา...">
+            </div>
 
-                                <!-- select all -->
-                                <label class="cp-ms-item cp-ms-all">
-                                    <input type="checkbox" id="to_all">
-                                    All
-                                </label>
 
-                                <!-- list (JS render) -->
-                                <div class="cp-ms-list" id="to_list"></div>
+            <!-- ================= STEP 2 : PREVIEW ================= -->
+            <div id="qr_step_preview" style="display:none;text-align:center;">
 
-                            </div>
+                <div id="qr_preview"
+                    style="margin-bottom:12px;">
+                </div>
 
-                        </div>
+                <button class="cp-btn-secondary" id="btn_back_step">
+                    ← ย้อนกลับ
+                </button>
 
-                    </td>
-                </tr>
-            </table>
+            </div>
+
+        </div>
+
+        <div class="cp-modal-footer">
+
+            <button class="cp-btn-secondary cp-modal-close">
+                ยกเลิก
+            </button>
+
+            <button class="cp-btn-primary" id="btn_generate_qr">
+                ต่อไป
+            </button>
+
         </div>
     </div>
 </div>

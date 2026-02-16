@@ -759,88 +759,31 @@
         box-shadow: 0 12px 28px rgba(99, 102, 241, .35);
     }
 
-    .cp-dropdown {
-        position: relative;
-        width: 220px;
-    }
-
-    .cp-dropdown-display {
-        border: 1px solid #d1d5db;
-        padding: 6px 10px;
-        cursor: pointer;
-        background: #fff;
-    }
-
-    .cp-dropdown-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: #fff;
-        border: 1px solid #e5e7eb;
-        max-height: 220px;
-        overflow: auto;
-        display: none;
-        z-index: 1000;
-    }
-
-    .cp-dd-item {
-        display: block;
-        padding: 6px 10px;
-        cursor: pointer;
-    }
-
-    .cp-ms {
-        position: relative;
-        width: 260px;
-        font-size: 14px;
-    }
-
-    .cp-ms-display {
-        border: 1px solid #d1d5db;
-        padding: 7px 10px;
-        background: #fff;
-        cursor: pointer;
+    .cp-check-list {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-radius: 6px;
+        flex-direction: column;
+        gap: 6px;
     }
 
-    .cp-ms-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: #fff;
+    .cp-check-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
         border: 1px solid #e5e7eb;
         border-radius: 8px;
-        margin-top: 4px;
-        display: none;
-        z-index: 999;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-    }
-
-    .cp-ms-search {
-        width: 100%;
-        border: none;
-        border-bottom: 1px solid #eee;
-        padding: 8px;
-        outline: none;
-    }
-
-    .cp-ms-list {
-        max-height: 220px;
-        overflow: auto;
-    }
-
-    .cp-ms-item {
-        display: block;
-        padding: 6px 10px;
         cursor: pointer;
+        background: #fff;
+        transition: .15s;
     }
 
-    .cp-ms-item:hover {
-        background: #f3f4f6;
+    .cp-check-item:hover {
+        background: #f9fafb;
+        border-color: #d1d5db;
+    }
+
+    .cp-check-item input {
+        transform: scale(1.1);
+        cursor: pointer;
     }
 </style>

@@ -27,7 +27,7 @@ if (empty($data['trip_id'])) {
 $trip_id = $data["trip_id"]; 
 
 try{
-    $sql = "select a.member_id, b.first_name, b.last_name, b.role
+    $sql = "select a.member_id, a.user_id, b.first_name, b.last_name, b.role
             from members a
             inner join users b on a.user_id = b.user_id
             where trip_id = :trip_id";
