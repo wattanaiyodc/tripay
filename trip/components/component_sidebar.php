@@ -134,7 +134,6 @@ $cp_active = $cp_active ?? '';
         white-space: nowrap;
     }
 </style>
-<?php include("notification.php"); ?>
 <!-- SIDEBAR -->
 <nav class="cp-sidebar">
     <h1>Tripay</h1>
@@ -171,43 +170,7 @@ $cp_active = $cp_active ?? '';
         <div class="cp-title">
             <?= htmlspecialchars($cp_trip_name ?? '') ?>
         </div>
-
-        <div class="cp-topbar-right">
-             <div class="cp-topbar-right">
-            <div class="cp-noti" id="cp_noti">
-                <div class="cp-noti-btn">
-                    <!-- MAIL ICON -->
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-                        <path d="M3 7l9 6 9-6"></path>
-                    </svg>
-
-                    <span class="cp-noti-badge" id="noti_badge">3</span>
-                </div>
-
-                <div class="cp-noti-box" id="noti_box">
-                    <div class="cp-noti-header">
-                        แจ้งเตือน
-                    </div>
-
-                    <div class="cp-noti-list" id="noti_list">
-
-                        <!-- item -->
-                        <div class="cp-noti-item unread">
-                            <div class="cp-noti-title">คำขอรับเงินใหม่</div>
-                            <div class="cp-noti-msg">แมน ขอรับ 250 บาท • ค่าอาหาร</div>
-                        </div>
-
-                        <div class="cp-noti-item">
-                            <div class="cp-noti-title">Timeline ใหม่</div>
-                            <div class="cp-noti-msg">เพิ่มกิจกรรมวันที่ 12</div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+        <?php include("notification.php"); ?>
             <!-- LANG TOGGLE -->
             <form method="POST" action="../trip/lang/switch_lang.php" class="cp-lang-form">
                 <button type="submit" name="lang" value="th"

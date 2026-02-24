@@ -27,7 +27,7 @@ include 'components/component_sidebar.php';
 <!-- ================= กล่องรายละเอียดทริป ================= -->
 <!-- ===== Trip Info ===== -->
 <div class="cp-box">
-    <a href="index.php" id="btn_back" class="cp-back-btn">← กลับ</a>
+    <a href="#" id="btn_back" class="cp-back-btn">← กลับ</a>
 
     <h2 id="trip_name" class="cp-trip-title"></h2>
 

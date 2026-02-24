@@ -2,8 +2,6 @@
 session_start();
 include('../db.php');
 
-header('Content-Type: application/json');
-
 if (!isset($_SESSION["user_id"])) {
     exit(json_encode([
         'status'  => 'error',
@@ -22,7 +20,7 @@ if (empty($data['trip_id'])) {
 
 $user_id = (int)$_SESSION['user_id'];
 $trip_id = (int)$data['trip_id'];
-
+$qr_id   = (int)$data["qr_id"];
 try {
 
     $sql = "
@@ -52,11 +50,23 @@ try {
         ]));
     }
 
-    echo json_encode([
-        'status' => 'success',
-        'result' => $trip   
-    ]);
-    exit();
+    if (!empty($qr_id)) {
+        $sql = "select amount from qr_request where trip_id = :trip_id and qr_id = :qr_id";
+        $sth = $pdo2->prepare($sql);
+        $sth->execute([
+            ":trip_id"   => $trip_id,
+            ":qr_id"     => $qr_id
+        ]);
+        if ($sth->errorInfo()[0] != "00000" && !empty($sth->errorInfo()[0])) {
+          $answer["message"] = (empty($sth->errorInfo()[2])) ? $sth->errorInfo()[0] : $sth->errorInfo()[2];
+          exit(json_encode($answer));
+        }
+        $answer["amount"] = $sth->fetchColumn();
+    }
+    $answer["status"] = 'success';
+    $answer["result"] = $trip;
+   
+    exit(json_encode($answer));
 } catch (PDOException $e) {
     exit(json_encode([
         'status'  => 'error',

@@ -3,6 +3,7 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 <script>
     function generatePromptPayPayload(account, amount) {
+        amount = Number(amount) || 0;
 
         function formatID(id) {
             id = id.replace(/[^0-9]/g, '');
@@ -97,8 +98,19 @@
         $(this).closest('.cp-modal').fadeOut(120);
     });
 
-    $('#btn_back').click(function() {
-        location.href = 'index.php';
+    $('#btn_back').click(function(e) {
+
+        e.preventDefault(); // ⭐ กัน href ทำงาน
+
+        $.ajax({
+            url: 'api/engine-session/delete.php',
+            type: 'POST',
+            dataType: 'json',
+            success: function(res) {
+                location.href = 'index.php';
+            }
+        });
+
     });
     $('#btn_edit_member').click(function() {
         location.href = `manage_member.php?trip_id=<?php echo $trip_id ?>`;
@@ -350,12 +362,15 @@
         });
     }
 
-    function gen_qr_preview() {
+    function gen_qr_preview(qr_id = '') {
 
         var q = json_request;
+        q.qr_id = qr_id ?? "";
         var url = 'api/engine-trip/retrieve_detail_trip.php';
         var json = JSON.stringify(q);
-
+        $("#qr_preview").html(
+            '<div style="font-size:12px;color:#9ca3af">กำลังโหลด QR...</div>'
+        );
         $.ajax({
             url: url,
             type: 'POST',
@@ -372,8 +387,7 @@
 
                 let trip = res.result;
                 let promptpay_id = trip.promptpay;
-                let amount = Number($('#qr_price').val()) || 0;
-                
+                let amount = Number($('#qr_price').val()) || res.amount;
                 let payload = generatePromptPayPayload(promptpay_id, amount);
 
                 $('#qr_preview').html('<canvas id="qr_canvas"></canvas>');

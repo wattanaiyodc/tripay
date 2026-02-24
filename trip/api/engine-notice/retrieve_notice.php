@@ -25,15 +25,42 @@ $user_id = $data["user_id"];
 try{
     $sql = "select *
             from notification
-            where ";
+            where user_id = :user_id and
+                  trip_id = :trip_id";
     $sth = $pdo2->prepare($sql);
-    $sth->execute();
+    $sth->execute([
+        ":user_id"   => $user_id,
+        ":trip_id"   => $trip_id
+    ]);
     if ($sth->errorInfo()[0] != "00000" && !empty($sth->errorInfo()[0])) {
       $answer["message"] = (empty($sth->errorInfo()[2])) ? $sth->errorInfo()[0] : $sth->errorInfo()[2];
       exit(json_encode($answer));
     }
+    $answer["result"] = array();
+    while($r = $sth->fetch(PDO::FETCH_ASSOC)){
+        array_push($answer["result"], $r);
+    }
+
+    $sql = "select count(*)
+            from notification
+            where user_id = :user_id and
+                  trip_id = :trip_id and
+                  is_read = 0";
+    $sth = $pdo2->prepare($sql);
+    $sth->execute([
+        ":user_id"   => $user_id,
+        ":trip_id"   => $trip_id
+    ]);
+    if ($sth->errorInfo()[0] != "00000" && !empty($sth->errorInfo()[0])) {
+        $answer["message"] = (empty($sth->errorInfo()[2])) ? $sth->errorInfo()[0] : $sth->errorInfo()[2];
+        exit(json_encode($answer));
+    }
+    $count = $sth->fetchColumn();
+    $answer["count"]   = $count;
+    $answer["success"] = 1;
+    $answer["message"] = 'success';
+    exit(json_encode($answer));
 } catch (Exception $e) {
 
-    $pdo2->rollBack();
     $answer["message"] = $e->getMessage();
 }

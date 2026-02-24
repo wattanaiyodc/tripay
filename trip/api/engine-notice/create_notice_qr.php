@@ -114,7 +114,7 @@ try {
 
     $sql = "
         INSERT INTO `notification`
-        (`user_id`, `trip_id, `title`,`message`,`ref_type`,`ref_id`)
+        (`user_id`, `trip_id`, `title`,`message`,`ref_type`,`ref_id`)
         VALUES
     ";
 
@@ -133,8 +133,8 @@ try {
             :ref_id{$i}
         )";
 
-        $exe[":user_id{$i}"]  = (int)$user;
-        $exe[":trip_id{$i}"]  = (int)$trip_id;
+        $exe[":user_id{$i}"]  = $user;
+        $exe[":trip_id{$i}"]  = $trip_id;
         $exe[":title{$i}"]    = $title;
         $exe[":message{$i}"]  = $message;
         $exe[":ref_type{$i}"] = 'qr';
