@@ -1,0 +1,78 @@
+/* ===== UIAlert System ===== */
+
+#ui-alert-root {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    pointer-events: none;
+}
+
+/* overlay */
+.ui-alert-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: .2s ease;
+    pointer-events: auto;
+}
+
+/* show animation */
+.ui-alert-overlay.show {
+    opacity: 1;
+}
+
+/* box */
+.ui-alert-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 22px;
+    min-width: 320px;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+    transform: translateY(10px);
+    transition: .2s ease;
+    font-family: sans-serif;
+}
+
+.ui-alert-overlay.show .ui-alert-box {
+    transform: translateY(0);
+}
+
+.ui-alert-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.ui-alert-text {
+    margin-bottom: 18px;
+    color: #444;
+    line-height: 1.5;
+}
+
+.ui-alert-actions {
+    text-align: right;
+}
+
+/* buttons */
+.ui-btn {
+    border: 0;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 6px;
+    font-size: 14px;
+}
+
+.ui-btn-confirm {
+    background: #2563eb;
+    color: #fff;
+}
+
+.ui-btn-cancel {
+    background: #e5e7eb;
+}

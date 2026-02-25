@@ -134,6 +134,10 @@ $cp_active = $cp_active ?? '';
         white-space: nowrap;
     }
 </style>
+
+<!-- PLUGIN UI ALERT -->
+<link rel="stylesheet" href="/tripay/assets/css/ui-alert.css">
+<script src="/tripay/assets/js/ui-alert.js" defer></script>
 <!-- SIDEBAR -->
 <nav class="cp-sidebar">
     <h1>Tripay</h1>
@@ -154,6 +158,11 @@ $cp_active = $cp_active ?? '';
         <span>Expense</span>
     </a>
 
+    <a href="../trip/payment_status.php?trip_id=<?php echo $_SESSION['trip_id'] ?>" class="<?= $cp_active === 'payment_status' ? 'cp-active' : '' ?>">
+        <span class="cp-icon">📊</span>
+        <span>Payment Status</span>
+    </a>
+
     <div class="cp-sidebar-divider"></div>
 
     <a href="../auth/logout.php">
@@ -171,31 +180,31 @@ $cp_active = $cp_active ?? '';
             <?= htmlspecialchars($cp_trip_name ?? '') ?>
         </div>
         <?php include("notification.php"); ?>
-            <!-- LANG TOGGLE -->
-            <form method="POST" action="../trip/lang/switch_lang.php" class="cp-lang-form">
-                <button type="submit" name="lang" value="th"
-                    class="cp-lang-btn <?= (($_SESSION['lang'] ?? 'th') === 'th') ? 'active' : '' ?>">
-                    TH
-                </button>
-                <button type="submit" name="lang" value="en"
-                    class="cp-lang-btn <?= (($_SESSION['lang'] ?? 'th') === 'en') ? 'active' : '' ?>">
-                    EN
-                </button>
-            </form>
+        <!-- LANG TOGGLE -->
+        <form method="POST" action="../trip/lang/switch_lang.php" class="cp-lang-form">
+            <button type="submit" name="lang" value="th"
+                class="cp-lang-btn <?= (($_SESSION['lang'] ?? 'th') === 'th') ? 'active' : '' ?>">
+                TH
+            </button>
+            <button type="submit" name="lang" value="en"
+                class="cp-lang-btn <?= (($_SESSION['lang'] ?? 'th') === 'en') ? 'active' : '' ?>">
+                EN
+            </button>
+        </form>
 
-            <!-- USER -->
-            <div class="cp-user">
-                <div class="cp-avatar">
-                    <?= strtoupper(substr($cp_user_name ?? 'U', 0, 1)) ?>
-                </div>
-                <div>
-                    <div><?= htmlspecialchars($cp_user_name ?? '') ?></div>
-                    <small>ID: <?= $cp_user_id ?? '-' ?></small>
-                </div>
+        <!-- USER -->
+        <div class="cp-user">
+            <div class="cp-avatar">
+                <?= strtoupper(substr($cp_user_name ?? 'U', 0, 1)) ?>
+            </div>
+            <div>
+                <div><?= htmlspecialchars($cp_user_name ?? '') ?></div>
+                <small>ID: <?= $cp_user_id ?? '-' ?></small>
             </div>
         </div>
-    </header>
+</div>
+</header>
 
 
-    <!-- CONTENT -->
-    <div class="cp-content">
+<!-- CONTENT -->
+<div class="cp-content">

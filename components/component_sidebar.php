@@ -222,6 +222,8 @@ $cp_active = $cp_active ?? '';
         color: #fff;
     }
 </style>
+<link rel="stylesheet" href="/tripay/assets/css/ui-alert.css">
+<script src="/tripay/assets/js/ui-alert.js"></script>
 <?php include("notification.php"); ?>
 <!-- SIDEBAR -->
 <nav class="cp-sidebar">

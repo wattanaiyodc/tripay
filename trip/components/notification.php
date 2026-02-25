@@ -215,7 +215,7 @@
 <script>
     var json_request = {
         user_id: <?php echo $_SESSION['user_id']; ?>,
-        trip_id: <?php echo $trip_id; ?>
+        trip_id: <?php echo $_SESSION['trip_id']; ?>
     };
    // ===== เปิด / ปิด noti box =====
 $(document).on('click', '#cp_noti .cp-noti-btn', function(e) {
